@@ -1,0 +1,116 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+    <meta name="apple-mobile-web-app-status-bar-style" /> 
+</head>
+<body onload="init()">
+    <canvas id="canvas" class="canvasStyle" style="border:1px solid gray"></canvas>
+    <style>
+    canvas {
+        padding:0;
+        margin:0;
+    	-webkit-user-select: none;
+    	cursor: crosshair;
+    }
+    </style>
+    <script type="text/javascript">
+        canvas = document.querySelector( 'canvas' );
+        var context = canvas.getContext( '2d' );
+
+    	//set height and width to size of device window
+    	canvas.setAttribute("height", "350px");
+    	canvas.setAttribute("width", window.innerWidth-10 + "px");
+ 
+    	
+        function onMouseMoveOnCanvas( event )
+        {           
+            var touch = window.event.targetTouches[ 0 ]
+ 
+            event.preventDefault();
+            event.stopPropagation();
+ 
+            if ( canvas.drawing )
+            {               
+//              var mouseX=event.clientX;
+//              var mouseY=event.clientY;
+//              var mouseX=event.layerX
+//              var mouseY=event.layerY
+                var mouseX = touch.pageX,
+                var mouseY = touch.pageY
+ 
+                if ( canvas.pathBegun == false )
+                {                   
+                    context.beginPath();
+                    canvas.pathBegun = true;
+                }
+                else
+                {
+                    context.lineTo( mouseX, mouseY );
+                    context.stroke();
+                }
+            }
+        }
+ 
+        function onMouseClickOnCanvas( event )
+        {                       
+            canvas.drawing = !canvas.drawing;
+            if ( canvas.drawing ) // reset the path when starting over
+            {
+                canvas.pathBegun = false;
+            }
+        }
+ 
+        function init()
+        {           
+            context.strokeStyle = '#000';
+            context.lineWidth = 1;
+//          canvas.addEventListener( 'mousemove', onMouseMoveOnCanvas, false ); 
+//          canvas.addEventListener( 'mousedown', onMouseClickOnCanvas, false ); 
+            canvas.addEventListener( 'touchmove', onMouseMoveOnCanvas, false ); 
+            canvas.addEventListener( 'touchstart', onMouseClickOnCanvas, false ); 
+        }
+ 
+        function updateOrientation(e) {
+
+        	//if the user changes device orientation, clear the canvas and resize to fit new orientation
+        	switch (window.orientation) {
+        		case 0: 
+        			if (!confirm("Clear and resize canvas to portrait?")) {
+        				break;
+        			}
+        			canvas.setAttribute("height", (window.innerHeight - toolbarHeight) + "px");
+        			canvas.setAttribute("width", window.innerWidth + "px");
+        			canvas.style.backgroundColor = 'rgb(' + rB + ', ' + gB + ', ' + bB + ')'; 
+        			break; 
+        		case 90:
+        			if (!confirm("Clear and resize canvas to landscape?")) {
+        				break;
+        			}
+        			canvas.setAttribute("height", (window.innerHeight - toolbarHeight) + "px");
+        			canvas.setAttribute("width", window.innerWidth + "px");
+        			canvas.style.backgroundColor = 'rgb(' + rB + ', ' + gB + ', ' + bB + ')';
+        			break;
+        		case -90: 
+        			if (!confirm("Clear and resize canvas to landscape?")) {
+        				break;
+        			}
+        			canvas.setAttribute("height", (window.innerHeight - toolbarHeight) + "px");
+        			canvas.setAttribute("width", window.innerWidth + "px");
+        			canvas.style.backgroundColor = 'rgb(' + rB + ', ' + gB + ', ' + bB + ')';
+        			break;
+        		case 180:
+        			if (!confirm("Clear and resize canvas to portrait?")) {
+        				break;
+        			}
+        			canvas.setAttribute("height", (window.innerHeight - toolbarHeight) + "px");
+        			canvas.setAttribute("width", window.innerWidth + "px");
+        			canvas.style.backgroundColor = 'rgb(' + rB + ', ' + gB + ', ' + bB + ')';
+        			break;
+        	}	
+        }
+ 
+ 
+    </script>
+</body>
+</html>
