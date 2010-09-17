@@ -1,0 +1,3 @@
+[submodule "Resources/harmony"]
+	path = Resources/harmony
+	url = http://github.com/mrdoob/harmony.git
